@@ -1,0 +1,130 @@
+<div class="container">
+    <div class="col-md-6 offset-md-3">
+        @if(AtividadeId){
+        <h1 class="text-center">Editar Atividade</h1>
+        }@else {
+        <h1 class="text-center">Cadastrar Atividade</h1>
+        }
+    </div>
+    <form [formGroup]="formAtividade" (ngSubmit)="addAtividade()" class="mb-5">
+        <div class="mb-3">
+            <label for="nome" class="form-label">Nome Atividade:</label>
+            <input type="text" class="form-control" id="nome" formControlName="nome" required [ngClass]="{
+                'is-invalid': formAtividade.get('nome')?.invalid && formAtividade.get('nome')?.touched,
+                'is-valid': formAtividade.get('nome')?.valid && formAtividade.get('nome')?.touched
+            }" />
+            @if(formAtividade.get('nome')?.pristine){
+            <div class="form-text">* Campo Obrigatório.</div>
+            }
+            @if(formAtividade.get('nome')?.invalid &&
+            formAtividade.get('nome')?.touched){
+            <div class="form-text text-danger">Nome é obrigatório.</div>
+            }
+        </div>
+        <div class="mb-3">
+            <label for="descricao" class="form-label">Descrição:</label>
+            <textarea class="form-control" id="descricao" formControlName="descricao" required rows="3" [ngClass]="{
+                'is-invalid': formAtividade.get('descricao')?.invalid && formAtividade.get('descricao')?.touched,
+                'is-valid': formAtividade.get('descricao')?.valid && formAtividade.get('descricao')?.touched
+            }"></textarea>
+            @if(formAtividade.get('descricao')?.pristine){
+            <div class="form-text">* Campo Obrigatório.</div>
+            }
+            @if(formAtividade.get('descricao')?.invalid &&
+            formAtividade.get('descricao')?.touched){
+            <div class="form-text text-danger">Descrição é obrigatória.</div>
+            }
+        </div>
+        <div class="mb-3">
+            <label for="tipo" class="form-label">Categoria:</label>
+            <select class="form-select" id="tipo" formControlName="tipo" required (change)="onTipoChange($event)" [ngClass]="{
+                'is-invalid': formAtividade.get('tipo')?.invalid && formAtividade.get('tipo')?.touched,
+                'is-valid': formAtividade.get('tipo')?.valid && formAtividade.get('tipo')?.touched
+            }">
+                <option value="">Selecione a categoria</option>
+                @for (tipo of tiposAtividade; track tipo) {
+                    <option [value]="tipo">{{tipo}}</option>
+                }
+            </select>
+            @if(formAtividade.get('tipo')?.pristine){
+                <div class="form-text">* Campo Obrigatório.</div>
+            }
+            @if(formAtividade.get('tipo')?.invalid &&
+            formAtividade.get('tipo')?.touched){
+                <div class="form-text text-danger">Categoria é obrigatória.</div>
+            }
+        </div>
+        @if(mostraCampoDescricaoOutro){
+            <div class="mb-3">
+                <label for="descricaoOutro" class="form-label">O que é esta atividade? (Opcional)</label>
+                <input type="text" class="form-control" id="descricaoOutro" [(ngModel)]="descricaoOutro" [ngModelOptions]="{standalone: true}" placeholder="Ex: Meditação, Leitura, Exercício..." />
+            </div>
+        }
+        <div class="mb-3">
+            <label for="prioridade" class="form-label">Prioridade:</label>
+            <select class="form-select" id="prioridade" formControlName="prioridade" [ngClass]="{
+                'is-invalid': formAtividade.get('prioridade')?.invalid && formAtividade.get('prioridade')?.touched,
+                'is-valid': formAtividade.get('prioridade')?.valid && formAtividade.get('prioridade')?.touched
+            }">
+                <option value="">Selecione a prioridade</option>
+                @for (p of tiposPrioridade; track p) {
+                    <option [value]="p">{{p}}</option>
+                }
+            </select>
+            @if(formAtividade.get('prioridade')?.pristine){
+                <div class="form-text">* Campo Obrigatório.</div>
+            }
+            @if(formAtividade.get('prioridade')?.invalid &&
+            formAtividade.get('prioridade')?.touched){
+                <div class="form-text text-danger">Prioridade é obrigatória.</div>
+            }
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Atribuir Usuários:</label>
+            <div class="border rounded p-3">
+                @if(usuarios.length > 0){
+                    @for (usuario of usuarios; track usuario.id) {
+                        @if(usuario.id) {
+                            <div class="form-check" (click)="toggleUsuario(usuario.id)">
+                                <input class="form-check-input" type="checkbox" 
+                                    [id]="'usr-' + usuario.id"
+                                    [checked]="usuariosAuxiliares.has(usuario.id)"
+                                    readonly>
+                                <label class="form-check-label" [for]="'usr-' + usuario.id" style="cursor: pointer;">
+                                    {{usuario.nome}}
+                                </label>
+                            </div>
+                        }
+                    }
+                }@else{
+                    <p class="text-muted">Nenhum usuário cadastrado</p>
+                }
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="dataInicio" class="form-label">Data de Início:</label>
+            <input type="date" class="form-control" id="dataInicio" formControlName="dataInicio" required [ngClass]="{
+                'is-invalid': formAtividade.get('dataInicio')?.invalid && formAtividade.get('dataInicio')?.touched,
+                'is-valid': formAtividade.get('dataInicio')?.valid && formAtividade.get('dataInicio')?.touched
+            }" />
+            @if(formAtividade.get('dataInicio')?.pristine){
+            <div class="form-text">* Campo Obrigatório.</div>
+            }
+            @if(formAtividade.get('dataInicio')?.invalid &&
+            formAtividade.get('dataInicio')?.touched){
+            <div class="form-text text-danger">Data de início é obrigatória.</div>
+            }
+        </div>
+        <div class="mb-3">
+            <label for="dataFim" class="form-label">Data de Fim (Opcional):</label>
+            <input type="date" class="form-control" id="dataFim" formControlName="dataFim" [ngClass]="{
+                'is-invalid': formAtividade.get('dataFim')?.touched && formAtividade.hasError('dataFimMenorQueDataInicio')
+            }" />
+            @if(formAtividade.get('dataFim')?.touched && formAtividade.hasError('dataFimMenorQueDataInicio')){
+                <div class="form-text text-danger">A data de fim não pode ser anterior à data de início.</div>
+            }
+        </div>
+            <button type="submit" class="btn btn-primary" [disabled]="formAtividade.invalid">Cadastrar</button>
+            <button type="reset" class="ms-2 btn btn-danger">Limpar</button>
+    </form>
+</div>

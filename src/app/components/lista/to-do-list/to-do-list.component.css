@@ -1,0 +1,16 @@
+.dropzone{
+  min-height: 200px;
+  background: #f8f9fa;
+  padding: 8px;
+  border-radius: 4px;
+}
+.draggable{
+  cursor: move;
+}
+.card-body.dropzone .card{ 
+  cursor: move;
+}
+.card.mb-2{
+  user-select: none;
+}
+

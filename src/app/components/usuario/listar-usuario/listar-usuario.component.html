@@ -1,0 +1,33 @@
+<div class="container">
+    @if(usuarios.length>0){
+        <div class="row">
+            <h1 class="text-center">Usuarios Cadastrados</h1>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col" class="text-center">#</th>
+                        <th scope="col" class="text-center">Nome</th>
+                        <th scope="col" class="text-center">email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (usuario of usuarios; track usuario.id){
+                        <tr>
+                            <th scope="row" class="text-center">{{usuario.id}}</th>
+                            <td class="text-center">{{usuario.nome}}</td>
+                            <td class="text-center">{{usuario.email}}</td>
+                            <td class="text-center">
+                                <i class="bi bi-pen" style="cursor: pointer; color: #0d6efd; margin-right: 8px;" (click)="editUsuario(usuario.id!)"></i>
+                                <i class="bi bi-trash" style="cursor: pointer; color: #dc3545;" (click)="deleteUsuario(usuario.id!)"></i>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }@else{
+        <div class="row">
+            <h1 class="text-center">Nenhum Usuario Cadastrado</h1>
+        </div>
+    }
+</div>

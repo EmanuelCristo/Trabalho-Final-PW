@@ -1,0 +1,129 @@
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-md-6 offset-md-3">
+            <label for="usuarioSelect" class="form-label">Selecione um Usuário:</label>
+            <select class="form-select" id="usuarioSelect" (change)="onUsuarioChange($event)">
+                <option value="">Escolha um usuário</option>
+                @for (usuario of usuarios; track usuario.id) {
+                    <option [value]="usuario.id">{{usuario.nome}}</option>
+                }
+            </select>
+        </div>
+    </div>
+
+    @if(!usuarioSelecionado){
+        <div class="row">
+            <div class="col-md-8 offset-md-2 text-center">
+                <h3>Selecione um usuário para ver e gerenciar suas atividades</h3>
+            </div>
+        </div>
+    } @else {
+        <div class="row">
+            <div class="col-12">
+            <h3 class="text-center">To-Do List de {{ getNomeUsuarioSelecionado() }}</h3>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-header text-center bg-secondary text-white">Pendências</div>
+                    <div class="card-body dropzone" (dragover)="onDragOver($event)" (drop)="onDrop($event, 'PENDENTE')">
+                        @if(pendentes.length > 0){
+                            @for (atividade of pendentes; track atividade.id) {
+                                <div class="card mb-2 draggable" draggable="true" (dragstart)="onDragStart($event, atividade.id)" [style.border-left]="'4px solid ' + getCorPrioridade(atividade.prioridade)">
+                                    <div class="card-body p-2">
+                                        <strong>{{atividade.nome}}</strong>
+                                        <div class="small text-muted">{{atividade.tipo}} · {{atividade.dataInicio | date:'dd/MM/yyyy'}} @if(atividade.dataFim){ → {{atividade.dataFim | date:'dd/MM/yyyy'}} }{{ obterClasseIndicadorVencimento(atividade.dataFim) }}</div>
+                                        <span class="badge mt-2" [style.background-color]="getCorPrioridade(atividade.prioridade)">{{atividade.prioridade}}</span>
+                                            <div class="mt-2">
+                                                <i class="bi bi-pen" style="cursor: pointer; color: #0d6efd; margin-right: 8px;" (click)="editarAtividade(atividade.id)"></i>
+                                                <i class="bi bi-trash" style="cursor: pointer; color: #dc3545;" (click)="deletarAtividade(atividade.id)"></i>
+                                            </div>
+                                    </div>
+                                </div>
+                            }
+                        } @else {
+                            <div class="text-muted">Sem pendências</div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-header text-center bg-info text-white">A Fazer</div>
+                    <div class="card-body dropzone" (dragover)="onDragOver($event)" (drop)="onDrop($event, 'AFAZER')">
+                        @if(afazer.length > 0){
+                            @for (atividade of afazer; track atividade.id) {
+                                <div class="card mb-2 draggable" draggable="true" (dragstart)="onDragStart($event, atividade.id)" [style.border-left]="'4px solid ' + getCorPrioridade(atividade.prioridade)">
+                                    <div class="card-body p-2">
+                                        <strong>{{atividade.nome}}</strong>
+                                        <div class="small text-muted">{{atividade.tipo}} · {{atividade.dataInicio | date:'dd/MM/yyyy'}} @if(atividade.dataFim){ → {{atividade.dataFim | date:'dd/MM/yyyy'}} }{{ obterClasseIndicadorVencimento(atividade.dataFim) }}</div>
+                                        <span class="badge mt-2" [style.background-color]="getCorPrioridade(atividade.prioridade)">{{atividade.prioridade}}</span>
+                                            <div class="mt-2">
+                                                <i class="bi bi-pen" style="cursor: pointer; color: #0d6efd; margin-right: 8px;" (click)="editarAtividade(atividade.id)"></i>
+                                                <i class="bi bi-trash" style="cursor: pointer; color: #dc3545;" (click)="deletarAtividade(atividade.id)"></i>
+                                            </div>
+                                    </div>
+                                </div>
+                            }
+                        } @else {
+                            <div class="text-muted">Vazio</div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-header text-center bg-warning text-white">Em Progresso</div>
+                    <div class="card-body dropzone" (dragover)="onDragOver($event)" (drop)="onDrop($event, 'PROGRESSO')">
+                        @if(progresso.length > 0){
+                            @for (atividade of progresso; track atividade.id) {
+                                <div class="card mb-2 draggable" draggable="true" (dragstart)="onDragStart($event, atividade.id)" [style.border-left]="'4px solid ' + getCorPrioridade(atividade.prioridade)">
+                                    <div class="card-body p-2">
+                                        <strong>{{atividade.nome}}</strong>
+                                        <div class="small text-muted">{{atividade.tipo}} · {{atividade.dataInicio | date:'dd/MM/yyyy'}} @if(atividade.dataFim){ → {{atividade.dataFim | date:'dd/MM/yyyy'}} }{{ obterClasseIndicadorVencimento(atividade.dataFim) }}</div>
+                                        <span class="badge mt-2" [style.background-color]="getCorPrioridade(atividade.prioridade)">{{atividade.prioridade}}</span>
+                                            <div class="mt-2">
+                                                <i class="bi bi-pen" style="cursor: pointer; color: #0d6efd; margin-right: 8px;" (click)="editarAtividade(atividade.id)"></i>
+                                                <i class="bi bi-trash" style="cursor: pointer; color: #dc3545;" (click)="deletarAtividade(atividade.id)"></i>
+                                            </div>
+                                    </div>
+                                </div>
+                            }
+                        } @else {
+                            <div class="text-muted">Vazio</div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-header text-center bg-success text-white">Concluído</div>
+                    <div class="card-body dropzone" (dragover)="onDragOver($event)" (drop)="onDrop($event, 'CONCLUIDO')">
+                        @if(concluido.length > 0){
+                            @for (atividade of concluido; track atividade.id) {
+                                <div class="card mb-2 draggable" draggable="true" (dragstart)="onDragStart($event, atividade.id)" [style.border-left]="'4px solid ' + getCorPrioridade(atividade.prioridade)">
+                                    <div class="card-body p-2">
+                                        <strong>{{atividade.nome}}</strong>
+                                        <div class="small text-muted">{{atividade.tipo}} · {{atividade.dataInicio | date:'dd/MM/yyyy'}} @if(atividade.dataFim){ → {{atividade.dataFim | date:'dd/MM/yyyy'}} }{{ obterClasseIndicadorVencimento(atividade.dataFim) }}</div>
+                                        <span class="badge mt-2" [style.background-color]="getCorPrioridade(atividade.prioridade)">{{atividade.prioridade}}</span>
+                                            <div class="mt-2">
+                                                <i class="bi bi-pen" style="cursor: pointer; color: #0d6efd; margin-right: 8px;" (click)="editarAtividade(atividade.id)"></i>
+                                                <i class="bi bi-trash" style="cursor: pointer; color: #dc3545;" (click)="deletarAtividade(atividade.id)"></i>
+                                            </div>
+                                    </div>
+                                </div>
+                            }
+                        } @else {
+                            <div class="text-muted">Vazio</div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

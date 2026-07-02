@@ -1,18 +1,43 @@
-<nav class="navbar navbar-expand-lg bg-dark bg-gradient">
-    <div class="container-fluid p-3">
-        <div class="col-4">
-            <a class="navbar-brand" style="color: white;" href="#">Navbar</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-        </div>
+<nav class="navbar navbar-expand-lg bg-dark bg-gradient" data-bs-theme="dark">
+    <div class="container">
+        <a class="navbar-brand" routerLink="lista/to-do-list" href="#" routerLinkActive="active">To-do-List</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <form class="d-flex col-8" role="search">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Usuarios
+                    </a>
+                    <ul class="dropdown-menu" data-bs-theme="dark">
+                        <li><a class="dropdown-item" routerLink="/usuario/cadastro-usuario"
+                                routerLinkActive="active">Cadastro
+                                Usuario</a></li>
+                        <li><a class="dropdown-item" routerLink="/usuario/listar-usuario"
+                                routerLinkActive="active">Listar
+                                Usuarios</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Atividades
+                    </a>
+                    <ul class="dropdown-menu" data-bs-theme="dark">
+                        <li><a class="dropdown-item" routerLink="/atividade/cadastro-atividade" href="#">Cadastro
+                                Atividade</a></li>
+                        <li><a class="dropdown-item" routerLink="/atividade/listar-atividade" href="#">Listar
+                                Atividade</a></li>
+                        <li><a class="dropdown-item" routerLink="/atividade/listar-atividade-usuario"
+                                href="#">Atividades por Usuário</a></li>
+                        <li><a class="dropdown-item" routerLink="/atividade/listar-atividade-categoria"
+                                href="#">Atividades por Categoria</a></li>
+                    </ul>
+                </li>
+            </ul>
         </div>
     </div>
 </nav>

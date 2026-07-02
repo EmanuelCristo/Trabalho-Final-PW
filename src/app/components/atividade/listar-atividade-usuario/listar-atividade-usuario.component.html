@@ -1,0 +1,51 @@
+<div class="container">
+    <div class="mb-4">
+        <label for="usuarioSelect" class="form-label">Selecione um Usuário:</label>
+        <select class="form-select" id="usuarioSelect" (change)="onUsuarioChange($event)">
+            <option value="">Escolha um usuário</option>
+            @for (usuario of usuarios; track usuario.id) {
+                <option [value]="usuario.id">{{usuario.nome}}</option>
+            }
+        </select>
+    </div>
+
+    @if(atividadeFiltradas.length > 0){
+        <div class="row">
+            <h1 class="text-center">Atividades de {{getNomeUsuarioSelecionado()}}</h1>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col" class="text-center">#</th>
+                        <th scope="col" class="text-center">Nome</th>
+                        <th scope="col" class="text-center">Descrição</th>
+                        <th scope="col" class="text-center">Categoria</th>
+                        <th scope="col" class="text-center">Prioridade</th>
+                        <th scope="col" class="text-center">Data Início</th>
+                        <th scope="col" class="text-center">Data Fim</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (atividade of atividadeFiltradas; track atividade.id){
+                        <tr>
+                            <th scope="row" class="text-center">{{atividade.id}}</th>
+                            <td class="text-center">{{atividade.nome}}</td>
+                            <td class="text-center">{{atividade.descricao}}</td>
+                            <td class="text-center">{{atividade.descricaoOutro || atividade.tipo}}</td>
+                            <td class="text-center">{{atividade.prioridade}}</td>
+                            <td class="text-center">{{atividade.dataInicio | date: 'dd/MM/yyyy'}}</td>
+                            <td class="text-center">{{atividade.dataFim ? (atividade.dataFim | date: 'dd/MM/yyyy') : '-'}}</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }@else if(usuarioSelecionado){
+        <div class="row">
+            <h1 class="text-center">Nenhuma Atividade encontrada para este usuário</h1>
+        </div>
+    }@else{
+        <div class="row">
+            <h1 class="text-center">Selecione um usuário para visualizar suas atividades</h1>
+        </div>
+    }
+</div>

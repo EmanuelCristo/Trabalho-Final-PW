@@ -1,0 +1,44 @@
+<div class="container">
+    @if(atividades.length>0){
+        <div class="row">
+            <h1 class="text-center">Atividades Cadastradas</h1>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col" class="text-center">#</th>
+                        <th scope="col" class="text-center">Nome</th>
+                        <th scope="col" class="text-center">Descrição</th>
+                        <th scope="col" class="text-center">Categoria</th>
+                        <th scope="col" class="text-center">Prioridade</th>
+                        <th scope="col" class="text-center">Usuários Atribuídos</th>
+                        <th scope="col" class="text-center">Data Início</th>
+                        <th scope="col" class="text-center">Data Fim</th>
+                        <th scope="col" class="text-center">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (atividade of atividades; track atividade.id){
+                        <tr>
+                            <th scope="row" class="text-center">{{atividade.id}}</th>
+                            <td class="text-center">{{atividade.nome}}</td>
+                            <td class="text-center">{{atividade.descricao}}</td>
+                            <td class="text-center">{{atividade.descricaoOutro || atividade.tipo}}</td>
+                            <td class="text-center">{{atividade.prioridade}}</td>
+                            <td class="text-center">{{getNomeUsuarios(atividade.usuarioIds)}}</td>
+                            <td class="text-center">{{atividade.dataInicio | date: 'dd/MM/yyyy'}}</td>
+                            <td class="text-center">{{atividade.dataFim ? (atividade.dataFim | date: 'dd/MM/yyyy') : '-'}}</td>
+                            <td class="text-center">
+                                <i class="bi bi-pen" style="cursor: pointer; color: #0d6efd; margin-right: 8px;" (click)="editAtividade(atividade.id)"></i>
+                                <i class="bi bi-trash" style="cursor: pointer; color: #dc3545;" (click)="deleteAtividade(atividade.id)"></i>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }@else{
+        <div class="row">
+            <h1 class="text-center">Nenhuma Atividade Cadastrada</h1>
+        </div>
+    }
+</div>

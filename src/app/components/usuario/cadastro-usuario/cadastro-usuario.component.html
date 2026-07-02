@@ -1,0 +1,41 @@
+<div class="container">
+    <div class="col-md-6 offset-md-3">
+        @if(usuarioId){
+        <h1 class="text-center">Editar Usuario</h1>
+        }@else {
+        <h1 class="text-center">Cadastrar Usuario</h1>
+        }
+    </div>
+    <form [formGroup]="formUsuario" (ngSubmit)="addUsuario()" class="mb-5">
+        <div class="mb-3">
+            <label for="nome" class="form-labrl">Nome Usuario:</label>
+            <input type="text" class="form-control" id="nome" formControlName="nome" required [ngClass]="{
+                'is-invalid': formUsuario.get('nome')?.invalid && formUsuario.get('nome')?.touched,
+                'is-valid': formUsuario.get('nome')?.valid && formUsuario.get('nome')?.touched
+            }"/>
+            @if(formUsuario.get('nome')?.pristine){
+                <div class="form-text">* Campo Obrigatório.</div>
+            }
+            @if(formUsuario.get('nome')?.invalid &&
+            formUsuario.get('nome')?.touched){
+            <div class="form-text text-danger">Nome é obrigatório.</div>
+            }        
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-labrl">Email Usuario:</label>
+            <input type="text" class="form-control" id="email" formControlName="email" required [ngClass]="{
+                'is-invalid': formUsuario.get('email')?.invalid && formUsuario.get('email')?.touched,
+                'is-valid': formUsuario.get('email')?.valid && formUsuario.get('email')?.touched
+            }"/>
+            @if(formUsuario.get('email')?.pristine){
+                <div class="form-text">* Campo Obrigatório.</div>
+            }
+            @if(formUsuario.get('email')?.invalid &&
+            formUsuario.get('email')?.touched){
+            <div class="form-text text-danger">email é obrigatório.</div>
+            }        
+        </div>
+            <button type="submit" class="btn btn-primary" [disabled]="formUsuario.invalid">Cadastrar</button>
+            <button type="reset" class="ms-2 btn btn-danger">Limpar</button>
+    </form>
+</div>
